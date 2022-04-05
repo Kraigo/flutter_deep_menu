@@ -136,20 +136,24 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
                 color: (widget.color).withOpacity(0.2),
               ),
             )),
-        _buildMenu(context),
         Positioned(
           top: contentOffset.dy,
           left: 0,
-          child: AbsorbPointer(
-              absorbing: true,
-              child: SizedBox(
-                width: contentSize.width,
-                height: contentSize.height,
-                child: widget.content,
-              )),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              AbsorbPointer(
+                  absorbing: true,
+                  child: SizedBox(
+                    width: contentSize.width,
+                    height: contentSize.height,
+                    child: widget.content,
+                  )),
+              _buildHeadMenu(context),
+              _buildMenu(context)
+            ],
+          ),
         ),
-        _buildHeadMenu(context),
-        // child,
       ]),
     );
   }
@@ -165,32 +169,35 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
     }
 
     return Positioned(
-      top: offset.dy,
-      left: screenSize.width * 0.05,
+      top: size.height,
+      left: contentOffset.dx + 10,
       child: SizedBox(
         width: screenSize.width * 0.5,
-        child: 
-        AnimatedScale(scale: started ? 1 : 0.3, duration: Duration(milliseconds: 100), child: widget.child, alignment: Alignment.topCenter,),
+        child: AnimatedScale(
+          scale: started ? 1 : 0.3,
+          duration: const Duration(milliseconds: 100),
+          child: widget.child,
+          alignment: Alignment.topCenter,
+        ),
       ),
     );
   }
 
   Positioned _buildHeadMenu(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final maxMenuHeight = screenSize.height * 0.45;
     final size = contentSize;
-    final offset = Offset(contentOffset.dx, contentOffset.dy + size.height);
-
-    if (contentOffset.dy > maxMenuHeight) {
-      print('Should we shifted');
-    }
 
     return Positioned(
-      top: contentOffset.dy,
-      left: screenSize.width * 0.05,
+      bottom: size.height,
+      left: contentOffset.dx + 10,
       child: SizedBox(
         width: screenSize.width * 0.5,
-        child: widget.headMenu,
+        child: AnimatedScale(
+          scale: started ? 1 : 0.3,
+          duration: const Duration(milliseconds: 100),
+          child: widget.headMenu,
+          alignment: Alignment.bottomCenter,
+        )
       ),
     );
   }

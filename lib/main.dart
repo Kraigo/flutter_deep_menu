@@ -45,8 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
           (index) => DeepMenu(
               child: MessageCard(title: "Message $index"),
               menu: _buildMenu(context),
-              headMenu: Text("Text")),
+              headMenu: _buildTopMenu()),
         ).toList()));
+  }
+
+  Widget _buildTopMenu() {
+
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.white),
+      child: Row(children: [
+        IconButton(onPressed: () {}, icon: Icon(Icons.telegram)),
+        IconButton(onPressed: () {}, icon: Icon(Icons.telegram)),
+        IconButton(onPressed: () {}, icon: Icon(Icons.telegram))
+      ],),
+    );
   }
 
   Widget _buildMenu(BuildContext context) {
