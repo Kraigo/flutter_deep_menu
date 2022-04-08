@@ -8,19 +8,11 @@ class DeepMenuList extends StatelessWidget {
 
   DeepMenuList({required this.items, Key? key}) : super(key: key);
 
-  Decoration divider(BuildContext context) {
-    final theme = Theme.of(context);
-    return BoxDecoration(
-      border: Border(
-        bottom: BorderSide(color: theme.dividerColor, width: 1.0),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.zero,
+        width: MediaQuery.of(context).size.width * 0.5,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6),
@@ -30,12 +22,21 @@ class DeepMenuList extends StatelessWidget {
             ...items
                 .sublist(0, items.length - 1)
                 .map((e) => Container(
-                      decoration: divider(context),
+                      decoration: _dividerDecoration(context),
                       child: e,
                     ))
                 .toList(),
             items.last
           ],
         ));
+  }
+
+  Decoration _dividerDecoration(BuildContext context) {
+    final theme = Theme.of(context);
+    return BoxDecoration(
+      border: Border(
+        bottom: BorderSide(color: theme.dividerColor, width: 1.0),
+      ),
+    );
   }
 }

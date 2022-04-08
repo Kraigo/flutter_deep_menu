@@ -1,14 +1,15 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
+import 'deep_menu_details.dart';
+
 class DeepMenu extends StatefulWidget {
-  Widget child;
-  Widget menu;
-  Widget? headMenu;
-  DeepMenu({
+  final Widget child;
+  final Widget bodyMenu;
+  final Widget? headMenu;
+
+  const DeepMenu({
     required this.child,
-    required this.menu,
+    required this.bodyMenu,
     this.headMenu,
     Key? key,
   }) : super(key: key);
@@ -17,12 +18,31 @@ class DeepMenu extends StatefulWidget {
   _DeepMenuState createState() => _DeepMenuState();
 }
 
-class _DeepMenuState extends State<DeepMenu> {
-  bool isTapped = false;
+class _DeepMenuState extends State<DeepMenu>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
 
   @override
   void initState() {
     super.initState();
+
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    animation = Tween(
+      begin: 1.0,
+      end: 0.98
+    )
+    .chain(CurveTween(curve: Curves.elasticOut))
+    .animate(controller);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   RenderBox get _renderBox {
@@ -33,16 +53,19 @@ class _DeepMenuState extends State<DeepMenu> {
     await Navigator.push(
         context,
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 100),
+          transitionDuration: const Duration(milliseconds: 150),
+          reverseTransitionDuration: const Duration(milliseconds: 100),
           pageBuilder: (context, animation, secondaryAnimation) {
-            animation = Tween(begin: 0.0, end: 1.0).animate(animation);
             return FadeTransition(
                 opacity: animation,
                 child: DeepMenuDetails(
-                  child: widget.menu,
+                  bodyMenu: widget.bodyMenu,
                   headMenu: widget.headMenu,
                   content: widget.child,
                   renderBox: _renderBox,
+                  animation: Tween<double>(begin: 0.0, end: 1.0)
+                    .chain(CurveTween(curve: Curves.easeOut))
+                    .animate(animation),
                 ));
           },
           fullscreenDialog: true,
@@ -54,144 +77,18 @@ class _DeepMenuState extends State<DeepMenu> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onLongPress: () {
-          setState(() {
-            isTapped = false;
-          });
+          controller.reverse();
           _openMenu();
         },
         onTapDown: (_) {
-          setState(() {
-            isTapped = true;
-          });
+          controller.forward();
         },
         onTapUp: (_) {
-          setState(() {
-            isTapped = false;
-          });
+          controller.reverse();
         },
-        child: AnimatedScale(
-          scale: isTapped ? 0.98 : 1,
-          duration: Duration(milliseconds: 100),
+        child: ScaleTransition(
+          scale: animation,
           child: widget.child,
         ));
-  }
-}
-
-class DeepMenuDetails extends StatefulWidget {
-  final Widget content;
-  final Widget child;
-  final Color color;
-  final Widget? headMenu;
-  // final Offset offset;
-  final RenderBox renderBox;
-
-  const DeepMenuDetails({
-    required this.child,
-    required this.content,
-    // required this.offset,
-    required this.renderBox,
-    this.headMenu,
-    this.color = Colors.black,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<DeepMenuDetails> createState() => _DeepMenuDetailsState();
-}
-
-class _DeepMenuDetailsState extends State<DeepMenuDetails> {
-  Size get contentSize {
-    return widget.renderBox.size;
-  }
-
-  Offset get contentOffset {
-    return widget.renderBox.localToGlobal(Offset.zero);
-  }
-
-  bool started = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      setState(() {
-        started = true;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(fit: StackFit.expand, children: [
-        GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                color: (widget.color).withOpacity(0.2),
-              ),
-            )),
-        _buildMenu(context),
-        Positioned(
-          top: contentOffset.dy,
-          left: 0,
-          child: AbsorbPointer(
-              absorbing: true,
-              child: SizedBox(
-                width: contentSize.width,
-                height: contentSize.height,
-                child: widget.content,
-              )),
-        ),
-        _buildHeadMenu(context),
-        // child,
-      ]),
-    );
-  }
-
-  Positioned _buildMenu(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final maxMenuHeight = screenSize.height * 0.45;
-    final size = contentSize;
-    final offset = Offset(contentOffset.dx, contentOffset.dy + size.height);
-
-    if (contentOffset.dy > maxMenuHeight) {
-      print('Should we shifted');
-    }
-
-    return Positioned(
-      top: offset.dy,
-      left: screenSize.width * 0.05,
-      child: SizedBox(
-        width: screenSize.width * 0.5,
-        child: 
-        AnimatedScale(scale: started ? 1 : 0.3, duration: Duration(milliseconds: 100), child: widget.child, alignment: Alignment.topCenter,),
-      ),
-    );
-  }
-
-  Positioned _buildHeadMenu(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final maxMenuHeight = screenSize.height * 0.45;
-    final size = contentSize;
-    final offset = Offset(contentOffset.dx, contentOffset.dy + size.height);
-
-    if (contentOffset.dy > maxMenuHeight) {
-      print('Should we shifted');
-    }
-
-    return Positioned(
-      top: contentOffset.dy,
-      left: screenSize.width * 0.05,
-      child: SizedBox(
-        width: screenSize.width * 0.5,
-        child: widget.headMenu,
-      ),
-    );
   }
 }

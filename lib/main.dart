@@ -44,8 +44,21 @@ class _MyHomePageState extends State<MyHomePage> {
           100,
           (index) => DeepMenu(
               child: MessageCard(title: "Message $index"),
-              menu: _buildMenu(context),
-              headMenu: Text("Text")),
+              bodyMenu: _buildMenu(context),
+              headMenu: Material(
+                child: 
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Row(children: [
+                    IconButton(onPressed: (){}, icon: Icon(Icons.person)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.person)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.person)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.person)),
+                  ],),
+                )
+              )),
         ).toList()));
   }
 
@@ -87,12 +100,15 @@ class MessageCard extends StatelessWidget {
     return Card(
       child: Padding(
           padding: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              Text('Description'),
-            ],
+          child: SizedBox(
+            height: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title),
+                Text('Description'),
+              ],
+            ),
           )),
     );
   }
