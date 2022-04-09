@@ -46,7 +46,11 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
 
   double get _paddingTop {
     final topPadding = MediaQuery.of(context).padding.top;
-    return contentOffset.dy > topPadding ? contentOffset.dy : topPadding;
+    return contentOffset.dy > topPadding ? contentOffset.dy : topPadding + 20;
+  }
+
+  double get _paddingBottom {
+    return MediaQuery.of(context).padding.bottom + 20;
   }
 
   @override
@@ -75,7 +79,8 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
             children: [
               Positioned.fill(child: _buildBackdrop(context)),
               SingleChildScrollView(
-                  padding: EdgeInsets.only(top: _paddingTop),
+                  padding:
+                      EdgeInsets.only(top: _paddingTop, bottom: _paddingBottom),
                   controller: scrollController,
                   child: _buildScrollBody()),
             ],
@@ -93,12 +98,13 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
             margin: EdgeInsets.only(bottom: widget.spacing),
             child: _buildHeadMenu(),
           ),
-        Center(child: _buildContent(),),
+        Center(
+          child: _buildContent(),
+        ),
         if (widget.bodyMenu != null)
           Container(
             alignment: Alignment.topCenter,
-            margin:
-                EdgeInsets.only(top: widget.spacing),
+            margin: EdgeInsets.only(top: widget.spacing),
             child: _buildBodyMenu(),
           ),
       ],

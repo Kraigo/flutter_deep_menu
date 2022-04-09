@@ -125,7 +125,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   headMenu: _buildHeadMenu(context),
                 ),
               ),
-            ).toList()))
+            ).toList())),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: DeepMenu(
+                    child: const MessageCard(title: "Big element with scroll"),
+                    bodyMenu: _buildMenu(context),
+                    headMenu: _buildHeadMenu(context),
+                  ),
+                ),
+              ),
+            )
           ],
         ));
   }
@@ -166,6 +179,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildHeadMenu(BuildContext context) {
+    // ignore: prefer_function_declarations_over_variables
+    void Function() goBack = () {
+      Navigator.pop(context);
+    };
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.white),
@@ -175,15 +193,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.save)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.refresh)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.zoom_in)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.zoom_out)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.flight))
+            IconButton(onPressed: goBack, icon: const Icon(Icons.save)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.edit)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.refresh)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.share)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.person)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.delete)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.zoom_in)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.zoom_out)),
+            IconButton(onPressed: goBack, icon: const Icon(Icons.flight))
           ],
         ),
       ),
@@ -204,9 +222,7 @@ class MessageCard extends StatelessWidget {
       margin: const EdgeInsets.all(0),
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-          child: Center(
-            child: Text(title)
-          )),
+          child: Center(child: Text(title))),
     );
   }
 }
