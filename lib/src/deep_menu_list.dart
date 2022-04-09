@@ -1,12 +1,11 @@
-import 'package:deep_menu/deep_menu.dart';
 import 'package:flutter/material.dart';
 
 import 'deep_menu_item.dart';
 
 class DeepMenuList extends StatelessWidget {
-  List<DeepMenuItem> items;
+  final List<DeepMenuItem> items;
 
-  DeepMenuList({required this.items, Key? key}) : super(key: key);
+  const DeepMenuList({required this.items, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

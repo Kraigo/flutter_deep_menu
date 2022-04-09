@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DeepMenuItem extends StatelessWidget {
-  Widget label;
-  Widget? icon;
-  void Function() onTap;
+  final Widget label;
+  final Widget? icon;
+  final void Function() onTap;
 
-  DeepMenuItem({
+  const DeepMenuItem({
     required this.label,
     required this.onTap,
     this.icon,
