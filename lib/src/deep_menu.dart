@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'deep_menu_details.dart';
 
@@ -22,6 +23,7 @@ class _DeepMenuState extends State<DeepMenu>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
+  late Key uniqKey;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _DeepMenuState extends State<DeepMenu>
     animation = Tween(begin: 1.0, end: 0.97)
         .chain(CurveTween(curve: Curves.easeIn))
         .animate(controller);
+    uniqKey = UniqueKey();
   }
 
   @override
@@ -47,6 +50,7 @@ class _DeepMenuState extends State<DeepMenu>
   }
 
   _openMenu() async {
+    HapticFeedback.lightImpact();
     await Navigator.push(
         context,
         PageRouteBuilder(
@@ -56,6 +60,7 @@ class _DeepMenuState extends State<DeepMenu>
             return FadeTransition(
                 opacity: animation,
                 child: DeepMenuDetails(
+                  uniqKey: uniqKey,
                   bodyMenu: widget.bodyMenu,
                   headMenu: widget.headMenu,
                   content: widget.child,
@@ -85,7 +90,7 @@ class _DeepMenuState extends State<DeepMenu>
             scale: animation,
             child: Hero(
               child: widget.child,
-              tag: widget.child.hashCode,
+              tag: uniqKey,
             )));
   }
 }

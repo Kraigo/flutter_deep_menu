@@ -10,13 +10,18 @@ class DeepMenuDetails extends StatefulWidget {
   final RenderBox renderBox;
   late final Animation<double> animation;
 
+  final double spacing;
+  final Key uniqKey;
+
   DeepMenuDetails({
     required this.bodyMenu,
     required this.content,
     required this.renderBox,
     required animation,
+    required this.uniqKey,
     this.headMenu,
     this.color = Colors.black,
+    this.spacing = 5.0,
     Key? key,
   }) : super(key: key) {
     this.animation = Tween<double>(begin: 0.0, end: 1.0)
@@ -68,25 +73,36 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
             fit: StackFit.expand,
             clipBehavior: Clip.none,
             children: [
-              Positioned.fill(child: 
-              _buildBackdrop(context)),
+              Positioned.fill(child: _buildBackdrop(context)),
               SingleChildScrollView(
                   padding: EdgeInsets.only(top: _paddingTop),
                   controller: scrollController,
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.headMenu != null) _buildHeadMenu(),
-                        _buildContent(),
-                        if (widget.bodyMenu != null) _buildBodyMenu()
-                      ],
-                    ),
-                  )),
+                  child: _buildScrollBody()),
             ],
           ),
         ));
+  }
+
+  Widget _buildScrollBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.headMenu != null)
+          Container(
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(bottom: widget.spacing),
+            child: _buildHeadMenu(),
+          ),
+        Center(child: _buildContent(),),
+        if (widget.bodyMenu != null)
+          Container(
+            alignment: Alignment.topCenter,
+            margin:
+                EdgeInsets.only(top: widget.spacing),
+            child: _buildBodyMenu(),
+          ),
+      ],
+    );
   }
 
   Widget _buildBackdrop(BuildContext context) {
@@ -106,7 +122,7 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
           height: contentSize.height,
           child: Hero(
             child: widget.content,
-            tag: widget.content.hashCode,
+            tag: widget.uniqKey,
           ),
         ));
   }

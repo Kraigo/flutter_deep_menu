@@ -47,47 +47,83 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return DeepMenu(
-                    child: MessageCard(title: "Message $index"),
-                    bodyMenu: _buildMenu(context),
-                    headMenu: _buildHeadMenu(context),
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: DeepMenu(
+                      child: MessageCard(title: "Deep menu $index"),
+                      bodyMenu: _buildMenu(context),
+                      // headMenu: _buildHeadMenu(context),
+                    ),
                   );
                 },
-                childCount: 4,
+                childCount: 2,
               ),
             ),
-
-            SliverToBoxAdapter(child: Divider(),),
-
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
             SliverList(
                 delegate: SliverChildListDelegate(List.generate(
-              3,
-              (index) => DeepMenu(
-                child: MessageCard(title: "Body menu only"),
-                bodyMenu: _buildMenu(context),
+              2,
+              (index) => Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: DeepMenu(
+                  child: MessageCard(title: "Body menu $index"),
+                  bodyMenu: _buildMenu(context),
+                ),
               ),
             ).toList())),
-
-            SliverToBoxAdapter(child: Divider(),),
-
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+                // mainAxisSpacing: 10.0,
+                // crossAxisSpacing: 10.0,
+                // childAspectRatio: 4.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: DeepMenu(
+                      child: MessageCard(title: "Body and Head $index"),
+                      bodyMenu: _buildMenu(context),
+                      headMenu: _buildHeadMenu(context),
+                    ),
+                  );
+                },
+                childCount: 2,
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
             SliverList(
                 delegate: SliverChildListDelegate(List.generate(
-              3,
-              (index) => DeepMenu(
-                child: MessageCard(title: "Head menu only"),
-                headMenu: _buildHeadMenu(context),
+              2,
+              (index) => Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: DeepMenu(
+                  child: MessageCard(title: "Head menu $index"),
+                  headMenu: _buildHeadMenu(context),
+                ),
               ),
             ).toList())),
-
-            SliverToBoxAdapter(child: Divider(),),
-
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
             SliverList(
                 delegate: SliverChildListDelegate(List.generate(
-              3,
-              (index) => DeepMenu(
-                child: MessageCard(title: "Body and Head menues"),
-                bodyMenu: _buildMenu(context),
-                headMenu: _buildHeadMenu(context),
+              2,
+              (index) => Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: DeepMenu(
+                  child: const MessageCard(title: "Body and Head menues"),
+                  bodyMenu: _buildMenu(context),
+                  headMenu: _buildHeadMenu(context),
+                ),
               ),
             ).toList()))
           ],
@@ -97,10 +133,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildMenu(BuildContext context) {
     return DeepMenuList(items: [
       DeepMenuItem(
+          label: const Text("Like"),
+          icon: const Icon(Icons.favorite_border),
+          onTap: () {
+            Navigator.pop(context);
+            // ignore: avoid_print
+            print('LIKE');
+          }),
+      DeepMenuItem(
           label: const Text("Save"),
           icon: const Icon(Icons.save),
           onTap: () {
             Navigator.pop(context);
+            // ignore: avoid_print
             print('SAVE');
           }),
       DeepMenuItem(
@@ -114,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           onTap: () {
             Navigator.pop(context);
+            // ignore: avoid_print
             print('SAVE');
           })
     ]);
@@ -155,15 +201,11 @@ class MessageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.all(0),
       child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
           child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title)
-              ],
-            ),
+            child: Text(title)
           )),
     );
   }
