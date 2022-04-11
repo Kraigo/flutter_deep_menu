@@ -7,6 +7,7 @@ class DeepMenuDetails extends StatefulWidget {
   final Widget? bodyMenu;
   final Color color;
   final Widget? headMenu;
+  final Size? headMenuSize;
   final RenderBox renderBox;
   late final Animation<double> animation;
 
@@ -20,6 +21,7 @@ class DeepMenuDetails extends StatefulWidget {
     required animation,
     required this.uniqKey,
     this.headMenu,
+    this.headMenuSize,
     this.color = Colors.black,
     this.spacing = 5.0,
     Key? key,
@@ -34,7 +36,9 @@ class DeepMenuDetails extends StatefulWidget {
 }
 
 class _DeepMenuDetailsState extends State<DeepMenuDetails> {
+
   late ScrollController scrollController;
+  final _offstageKey = GlobalKey();
 
   Size get contentSize {
     return widget.renderBox.size;
@@ -44,9 +48,14 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
     return widget.renderBox.localToGlobal(Offset.zero);
   }
 
+  double get _headMenuSize {
+    return widget.headMenuSize != null
+      ? widget.headMenuSize!.height + widget.spacing : 0;
+  }
+
   double get _paddingTop {
     final topPadding = MediaQuery.of(context).padding.top;
-    return contentOffset.dy > topPadding ? contentOffset.dy : topPadding + 20;
+    return contentOffset.dy > topPadding ? contentOffset.dy - _headMenuSize : topPadding + 20;
   }
 
   double get _paddingBottom {
@@ -94,6 +103,7 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
       children: [
         if (widget.headMenu != null)
           Container(
+            key: _offstageKey,
             alignment: Alignment.bottomCenter,
             margin: EdgeInsets.only(bottom: widget.spacing),
             child: _buildHeadMenu(),
