@@ -21,14 +21,11 @@ Opens menu after a long press. Supports the top and bottom menus.
 
 ```dart
 DeepMenu(
-    child: Column(
-        children: [
-            Card(
-                child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Text("Message!"),
-            )),
-        ],
+    child: Card(
+            child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Text("Message!"),
+        )),
     ),
     bodyMenu: Column(
         children: [
