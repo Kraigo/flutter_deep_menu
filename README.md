@@ -15,7 +15,7 @@ and the Flutter guide for
 Opens menu after a long press. Supports the top and bottom menus.
 
 ## Demo
-![](https://github.com//Kraigo/flutter_deep_menu/blob/master/example/assets/simulator_demo.gif)
+![](https://github.com//Kraigo/flutter_deep_menu/blob/master/example/assets/simulator_demo.gif?raw=true)
 
 ## Usage
 

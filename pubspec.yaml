@@ -1,6 +1,6 @@
 name: deep_menu
 description: Opens menu after a long press
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Kraigo/flutter_deep_menu
 
 environment:
