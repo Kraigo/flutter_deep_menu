@@ -108,12 +108,12 @@ class _DeepMenuState extends State<DeepMenu>
                 ))),
         if (_prepare && widget.headMenu != null)
           MeasureWidget(
-            child: widget.headMenu!,
-            onRender: (renderBox) {
-              setState(() {
-                headMenuSize = renderBox.size;
-              });
-            }),
+              child: widget.headMenu!,
+              onRender: (renderBox) {
+                setState(() {
+                  headMenuSize = renderBox.size;
+                });
+              }),
       ],
     );
   }

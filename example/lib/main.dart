@@ -40,16 +40,14 @@ class _MyHomePageState extends State<MyHomePage> {
           slivers: [
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0
-              ),
+                  maxCrossAxisExtent: 200.0),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: DeepMenu(
-                      child: MessageCard(title: "Deep menu $index"),
-                      bodyMenu: _buildMenu(context)
-                    ),
+                        child: MessageCard(title: "Deep menu $index"),
+                        bodyMenu: _buildMenu(context)),
                   );
                 },
                 childCount: 2,
@@ -74,8 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0
-              ),
+                  maxCrossAxisExtent: 200.0),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Padding(
