@@ -36,7 +36,6 @@ class DeepMenuDetails extends StatefulWidget {
 }
 
 class _DeepMenuDetailsState extends State<DeepMenuDetails> {
-
   late ScrollController scrollController;
   final _offstageKey = GlobalKey();
 
@@ -50,12 +49,15 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
 
   double get _headMenuSize {
     return widget.headMenuSize != null
-      ? widget.headMenuSize!.height + widget.spacing : 0;
+        ? widget.headMenuSize!.height + widget.spacing
+        : 0;
   }
 
   double get _paddingTop {
     final topPadding = MediaQuery.of(context).padding.top;
-    return contentOffset.dy > topPadding ? contentOffset.dy - _headMenuSize : topPadding + 20;
+    return contentOffset.dy > topPadding
+        ? contentOffset.dy - _headMenuSize
+        : topPadding + 20;
   }
 
   double get _paddingBottom {
@@ -105,7 +107,10 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
           Container(
             key: _offstageKey,
             alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: widget.spacing),
+            margin: EdgeInsets.only(
+                bottom: widget.spacing,
+                left: widget.spacing,
+                right: widget.spacing),
             child: _buildHeadMenu(),
           ),
         Center(
@@ -114,7 +119,10 @@ class _DeepMenuDetailsState extends State<DeepMenuDetails> {
         if (widget.bodyMenu != null)
           Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.only(top: widget.spacing),
+            margin: EdgeInsets.only(
+                top: widget.spacing,
+                left: widget.spacing,
+                right: widget.spacing),
             child: _buildBodyMenu(),
           ),
       ],
