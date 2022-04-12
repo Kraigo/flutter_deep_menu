@@ -23,7 +23,7 @@ class DeepMenuDetails extends StatefulWidget {
     this.headMenu,
     this.headMenuSize,
     this.color = Colors.black,
-    this.spacing = 5.0,
+    this.spacing = 10.0,
     Key? key,
   }) : super(key: key) {
     this.animation = Tween<double>(begin: 0.0, end: 1.0)

@@ -29,6 +29,7 @@ class _DeepMenuState extends State<DeepMenu>
   late Key uniqKey;
 
   Size? headMenuSize;
+  bool _prepare = false;
 
   @override
   void initState() {
@@ -58,7 +59,6 @@ class _DeepMenuState extends State<DeepMenu>
     if (widget.vibration) {
       HapticFeedback.lightImpact();
     }
-    
     await Navigator.push(
         context,
         PageRouteBuilder(
@@ -93,6 +93,9 @@ class _DeepMenuState extends State<DeepMenu>
             },
             onTapDown: (_) {
               controller.forward();
+              setState(() {
+                _prepare = true;
+              });
             },
             onTapUp: (_) {
               controller.reverse();
@@ -103,7 +106,7 @@ class _DeepMenuState extends State<DeepMenu>
                   child: widget.child,
                   tag: uniqKey,
                 ))),
-        if (widget.headMenu != null)
+        if (_prepare && widget.headMenu != null)
           MeasureWidget(
             child: widget.headMenu!,
             onRender: (renderBox) {

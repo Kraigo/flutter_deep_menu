@@ -191,6 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Material(
         color: Colors.transparent,
         child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           scrollDirection: Axis.horizontal,
           children: [
             IconButton(onPressed: goBack, icon: const Icon(Icons.save)),

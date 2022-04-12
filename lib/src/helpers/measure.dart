@@ -16,12 +16,14 @@ class MeasureWidget extends StatefulWidget {
 
 class _MeasureWidgetState extends State<MeasureWidget> {
   bool _initialized = false;
+  final _key = GlobalKey();
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final context = _key.currentContext!;
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       widget.onRender(renderBox);
       setState(() {
@@ -33,8 +35,9 @@ class _MeasureWidgetState extends State<MeasureWidget> {
   @override
   Widget build(BuildContext context) {
     return Offstage(
-        offstage: false,
+        offstage: true,
         child: Container(
+          key: _key,
           child: _initialized ? null : widget.child,
         ));
   }
