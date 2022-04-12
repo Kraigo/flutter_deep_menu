@@ -1,3 +1,7 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+* Initial release.
+* Longs press opens menu
+* Support top and bottom menu
+* Vibration on successed longTap
+* Animation in/out
